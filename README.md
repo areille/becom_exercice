@@ -14,3 +14,4 @@ Show us your best way to achieve this view.
 Do all you can in one day, if you can’t finish it’s ok, but priorize your work to make sure you can show us the most interesting parts.
 We will have a particular attention on the design fidelity.
 
+![UI](./UI.png)
