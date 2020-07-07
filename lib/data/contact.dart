@@ -1,15 +1,16 @@
 import 'package:faker/faker.dart';
 
 class Contact {
-  final ContactType type;
-  final String name;
-  final String tel;
-  final String email;
-  final String address;
-  final String postalCode;
-  final String city;
-  final DateTime birthDate;
-  final String comment;
+  int id;
+  ContactType type;
+  String name;
+  String tel;
+  String email;
+  String address;
+  String postalCode;
+  String city;
+  DateTime birthDate;
+  String comment;
 
   Contact(
     this.type,
@@ -35,10 +36,17 @@ class Contact {
       faker.address.streetAddress(),
       faker.address.zipCode(),
       faker.address.city(),
-      faker.date.dateTime(),
+      faker.date.dateTime(minYear: 1900, maxYear: 2020),
       faker.lorem.sentence(),
     );
   }
+
+  @override
+  String toString() => '''
+{
+  name: $name,
+}
+''';
 }
 
 enum ContactType { personal, business }
