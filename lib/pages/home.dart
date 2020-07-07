@@ -107,38 +107,36 @@ class _HomePageState extends State<HomePage> {
                       ...snapshot.data.where((e) => e.name.startsWith(letter))
                     ]
                 };
-                return Scrollbar(
-                  child: ListView.separated(
-                    separatorBuilder: (_, __) => const Divider(height: 0),
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (ctx, i) {
-                      final letter = [...contactMap.keys][i];
-                      return StickyHeader(
-                        header: Container(
-                          height: 30,
-                          color: Colors.grey[200],
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          alignment: Alignment.centerLeft,
-                          child: Text(letter),
-                        ),
-                        content: Column(
-                          children: [
-                            for (final contact in contactMap[letter])
-                              ListTile(
-                                leading: Icon(
-                                  contact.type == ContactType.business
-                                      ? Icons.business
-                                      : Icons.person,
-                                ),
-                                title: Text(contact.name),
-                                subtitle: Text(contact.tel),
-                                onTap: () => editContact(contact),
+                return ListView.separated(
+                  separatorBuilder: (_, __) => const Divider(height: 0),
+                  itemCount: contactMap.length,
+                  itemBuilder: (ctx, i) {
+                    final letter = [...contactMap.keys][i];
+                    return StickyHeader(
+                      header: Container(
+                        height: 30,
+                        color: Colors.grey[200],
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        alignment: Alignment.centerLeft,
+                        child: Text(letter),
+                      ),
+                      content: Column(
+                        children: [
+                          for (final contact in contactMap[letter])
+                            ListTile(
+                              leading: Icon(
+                                contact.type == ContactType.business
+                                    ? Icons.business
+                                    : Icons.person,
                               ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                              title: Text(contact.name),
+                              subtitle: Text(contact.tel),
+                              onTap: () => editContact(contact),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
                 );
               }
             }
