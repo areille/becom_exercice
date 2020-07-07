@@ -39,6 +39,7 @@ class _EditionPageState extends State<EditionPage> {
     cityCtrl.text = widget.contact.city;
     dateCtrl.text = widget.contact.birthDate.pretty();
     commentCtrl.text = widget.contact.comment;
+
     super.initState();
   }
 
