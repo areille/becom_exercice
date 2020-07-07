@@ -267,7 +267,7 @@ class _EditionPageState extends State<EditionPage> {
             children: [
               RaisedButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
+                  borderRadius: BorderRadius.circular(24.0),
                 ),
                 child: Text(
                   'Cancel',
@@ -278,7 +278,7 @@ class _EditionPageState extends State<EditionPage> {
               ),
               RaisedButton(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.0),
+                  borderRadius: BorderRadius.circular(24.0),
                 ),
                 child: Text(
                   'Validate',

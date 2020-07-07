@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:exercice/pages/edit.dart';
 import 'package:flutter/material.dart';
+import 'package:sticky_headers/sticky_headers.dart';
 
 import '../data/contact.dart';
 
@@ -94,25 +95,52 @@ class _HomePageState extends State<HomePage> {
           stream: contactsStream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              final contacts = snapshot.data;
-              return contacts.isEmpty
-                  ? Center(child: Text('No contacts...'))
-                  : Scrollbar(
-                      child: ListView.separated(
-                        separatorBuilder: (_, __) => const Divider(height: 0),
-                        itemCount: contacts.length,
-                        itemBuilder: (ctx, i) => ListTile(
-                          leading: Icon(
-                            contacts[i].type == ContactType.business
-                                ? Icons.business
-                                : Icons.person,
-                          ),
-                          title: Text(contacts[i].name),
-                          subtitle: Text(contacts[i].tel),
-                          onTap: () => editContact(contacts[i]),
+              if (snapshot.data.isEmpty)
+                return Center(child: Text('No contacts...'));
+              else {
+                final initials = [
+                  ...{...snapshot.data.map((e) => e.name[0])}
+                ];
+                final Map<String, List<Contact>> contactMap = {
+                  for (final letter in initials)
+                    letter: [
+                      ...snapshot.data.where((e) => e.name.startsWith(letter))
+                    ]
+                };
+                return Scrollbar(
+                  child: ListView.separated(
+                    separatorBuilder: (_, __) => const Divider(height: 0),
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (ctx, i) {
+                      final letter = [...contactMap.keys][i];
+                      return StickyHeader(
+                        header: Container(
+                          height: 30,
+                          color: Colors.grey[200],
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          alignment: Alignment.centerLeft,
+                          child: Text(letter),
                         ),
-                      ),
-                    );
+                        content: Column(
+                          children: [
+                            for (final contact in contactMap[letter])
+                              ListTile(
+                                leading: Icon(
+                                  contact.type == ContactType.business
+                                      ? Icons.business
+                                      : Icons.person,
+                                ),
+                                title: Text(contact.name),
+                                subtitle: Text(contact.tel),
+                                onTap: () => editContact(contact),
+                              ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
             }
             return Center(child: CircularProgressIndicator());
           }),
